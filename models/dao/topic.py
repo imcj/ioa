@@ -87,3 +87,12 @@ class TopicDAO(DatabaseAccessObject):
                 .where(TopicTable.c.id == topic_id)
                 .values(deleted_at=text('NOW()'))
         )
+
+    async def latest100(self):
+        result = await self.connection.execute(
+            TopicTable.select(TopicTable.c.deleted_at == None)
+            .limit(100)
+            .order_by(desc(TopicTable.c.created_at))
+        )
+
+        return await result.fetchall()
