@@ -1,4 +1,6 @@
 import PyRSS2Gen
+import markdown
+import bleach
 from router import routes
 from aiohttp import web
 from ioa.database import DatabaseContext
@@ -21,7 +23,10 @@ async def rss(request):
             PyRSS2Gen.RSSItem(
                 title=topic['title'],
                 link="https://doist.cn/t/%d" % (topic['id'],),
-                description=topic['content'],
+                description=markdown.markdown(
+                    bleach.clean(topic['content']),
+                    extensions=['markdown.extensions.tables']
+                ),
                 guid="https://doist.cn/t/%d" % (topic['id'],),
                 pubDate=topic['created_at'],
             )
