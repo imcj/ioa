@@ -1,47 +1,28 @@
-import os
 import asyncio
-import aiohttp_jinja2
-import jinja2
-import aiomysql
+import logging
 from aiohttp import web
+from router import routes
+from ioa.database import init as init_database
+from ioa.jinja import setup as setup_jinja
+from ioa.session import setup as setup_session
+from middlewares import setup_middleware, caculate_execute_time_middleware
 
-routes = web.RouteTableDef()
-loop = None
-pool = None
+from dotenv import load_dotenv
+load_dotenv()
 
 
-@routes.get('/')
-@aiohttp_jinja2.template('index.html')
-async def hello(request):
-    async with pool.acquire() as conn:
-        async with conn.cursor() as cur:
-            await cur.execute("SELECT 42;")
-            (r,) = await cur.fetchone()
-    return {
-
-    }
-
+logging.basicConfig(level=logging.DEBUG)
 loop = asyncio.get_event_loop()
 
-async def init_database():
-    global pool
-    config = {
-        "host": '127.0.0.1',
-        "port": 3306,
-        "user": "root",
-        "password": "",
-        "db": "test",
-        "loop": loop,
-        "maxsize": 100
-    }
-    pool = await aiomysql.create_pool(**config)
-
-loop.run_until_complete(init_database())
-
-
+loop.run_until_complete(init_database(loop))
 app = web.Application()
-aiohttp_jinja2.setup(app,
-    loader=jinja2.FileSystemLoader(os.path.abspath('./templates')))
+app.middlewares.append(caculate_execute_time_middleware)
+setup_jinja(app)
+setup_session(app)
+setup_middleware(app)
 
+import controller
+import os
+app.add_routes([web.static('/static', os.path.abspath('./static'))])
 app.add_routes(routes)
-web.run_app(app)
+web.run_app(app, port=3000, host='0.0.0.0')

@@ -1,0 +1,168 @@
+body {
+  background-color: #efefef;
+}
+
+.doist-nav {
+  box-shadow: 0px 0px 2px #CCC;
+}
+
+.box {
+  border-radius: 5px;
+  background-color: #FFFFFF;
+}
+
+/* home */
+
+.home-box {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.topic-list-item {
+  padding: 10px 10px 0px 10px;
+}
+
+.topic-list-item .topic-reply-count {
+  border-radius: 15px;
+  background-color: #EFEFEF;
+  min-width: 35px;
+  height: 23px;
+  line-height: 23px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.topic-list-item .right {
+  margin-left: 15px;
+}
+
+.topic-list-item h3 {
+  font-size: 16px;
+  margin: 0px;
+}
+
+.topic-list-meta {
+  font-size: 12px;
+  padding-bottom: 12px;
+}
+
+.toolbar {
+  padding-left: 10px;
+  display: none;
+  position: relative;
+  top: -5px;
+  float: right;
+}
+
+.toolbar svg {
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #CCC;
+  width: 26px;
+  height: 26px;
+}
+
+.toolbar a {
+  text-decoration: none;
+}
+
+/* home */
+
+/* topic begin */
+.topic-detail-box {
+  margin: 20px;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+}
+
+.topic-detail-box h1 {
+  font-size: 26px;
+  margin: 0px;
+}
+
+.topic-detail-box img {
+  max-width: 100%;
+}
+
+.topic-detail-meta {
+  border-bottom: 1px solid #EFEFEF;
+  padding: 15px;
+}
+
+.topic-detail-meta span {
+  color: #666;
+  font-size: 14px;
+}
+
+.topic-detail-meta .avatar, .topic-detail-meta .avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+.topic-detail-box .content {
+  padding: 15px;
+}
+
+.reply-box {
+  margin: 0px 20px 20px 20px;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+}
+
+.reply-box .avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.reply-box .avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+.reply-box .right {
+  display: box;
+  margin-left: 15px;
+  box-sizing: border-box;
+}
+
+.reply {
+  padding: 15px;
+  border-bottom: 1px solid #EFEFEF;
+}
+
+.reply-meta {
+  font-size: 12px;
+}
+
+.reply-meta .date {
+  margin-left: 15px;
+}
+
+.reply .author {
+  font-size: 12px;
+}
+
+.underline {
+  border-bottom: 1px solid #EFEFEF;
+}
+
+.avatar, .avatar img{
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+}
+
+/* topic new */
+.topic-new-box {
+  padding: 15px;
+}
+
+.execute-time {
+  font-size: 12px;
+  color: #CCC;
+  text-align: center;
+  margin-bottom: 15px;
+}
+

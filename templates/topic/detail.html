@@ -1,0 +1,77 @@
+{% extends "layout/master.html" %}
+{% block title %}{{topic.title}} - DOIST{% endblock %}
+{% block body %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="topic-detail-box">
+        <div class="topic-detail-meta clearfix">
+            <div class="clearfix">
+              <div class="heading float-left"><h1>{{topic.title}}</h1></div>
+              <div class="float-right avatar"><img src="https://www.gravatar.com/avatar/{{topic.id}}" /></div>
+            </div>
+            <div class="clearfix">
+              <a href="/u/{{topic.author_username}}">{{topic.author.username}}</a>
+              <span>{{topic.created_at|naturaldelta}}</span>
+              <span>最后由 {{topic.last_comment_by.username}} 回复于 {{topic.last_replied_at|naturaldelta}}</span>
+              <span>{{topic.view_count}} 次阅读</span>
+              <span>{{topic.reply_count}} 回复</span>
+            </div>
+        </div>
+        
+        <div class="content">
+            {{topic.content|bleach|markdown|safe}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-10">
+      <div class="reply-box">
+          {% for reply in topic.replies %}
+          <div class="clearfix reply">
+            <div class="avatar float-left"><img src="https://www.gravatar.com/avatar/{{reply.username}}" /></div>
+            <div class="right float-left">
+              <div class="reply-meta">
+                <a class="author" href="/{{reply.username}}">{{reply.username}}</a>
+                <span class="date">{{reply.created_at|naturaldelta}}<span>
+              </div>
+              <div>{{reply.content}}</div>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-10">
+        {% if user.is_anonymous() %}
+        <div class="reply-box" style="padding: 15px;">
+          需要<a href="/user/login">登录</a>后方可回复, 如果你还没有账号请点击这里<a href="/user/registration">注册</a>。
+        </div>
+        {% else %}
+        <div class="reply-box" style="padding: 15px;">
+          <form method="POST" enctype="application/x-www-form-urlencoded">
+            {% if errors %}
+            <div class="alert alert-warning" role="alert">
+              {% for error in  errors %}
+              <li>{{error}}</li>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <div class="form-group">
+              {{form.content}}
+              {% if form.content.errors %}
+              <div class="invalid-feedback">
+              {% for error in form.content.errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            <div class="form-group"></div>
+              <button type="submit" class="btn btn-primary">回复</button>
+            </div>
+          </form>
+        </div>
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
