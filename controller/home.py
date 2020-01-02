@@ -2,6 +2,7 @@ from aiohttp_session import get_session
 from router import routes
 import aiohttp_jinja2
 from factory import default
+import config
 
 topic_service = default.create_topic_service()
 
@@ -14,11 +15,13 @@ class HomeController:
         import paginate
         
         topics = await topic_service.topics(page)
+        print(topics['count'])
 
         p = paginate.Pagination(
             page=page, 
             page_parameter="page", 
-            per_page=50, 
+            per_page=config.PER_PAGE_SIZE, 
+            per_page_parameter="per_page",
             total=topics['count'], 
             alignment="center"
         )

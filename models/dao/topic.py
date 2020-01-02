@@ -5,6 +5,7 @@ from sqlalchemy.orm.util import aliased
 from sqlalchemy.sql import select
 from .database_access_object import DatabaseAccessObject
 from sqlalchemy import text, Integer, Text, desc, func
+import config
 
 class TopicDAO(DatabaseAccessObject):
 
@@ -59,8 +60,8 @@ class TopicDAO(DatabaseAccessObject):
                 .outerjoin(lastReplyAlias, TopicTable.c.last_replied_by_user_id == lastReplyAlias.c.id)
             )
             .order_by(desc(TopicTable.c.last_replied_at))
-            .limit(50)
-            .offset((page - 1) * 50)
+            .limit(config.PER_PAGE_SIZE)
+            .offset((page - 1) * config.PER_PAGE_SIZE)
         )
         topics = await query.fetchall()
         return topics

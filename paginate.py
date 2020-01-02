@@ -354,7 +354,7 @@ class Pagination(object):
     @property
     def prev_page(self):
         if self.has_prev:
-            page = self.page - 1 if self.page > 2 else None
+            page = self.page - 1 if self.page > 1 else None
             url = self.page_href(page)
             return self.prev_page_fmt.format(url, self.prev_label)
 
@@ -372,7 +372,7 @@ class Pagination(object):
     def first_page(self):
         # current page is first page
         if self.has_prev:
-            return self.link.format(self.page_href(None), 1)
+            return self.link.format(self.page_href(1), 1)
 
         return self.current_page_fmt.format(1)
 
@@ -426,8 +426,7 @@ class Pagination(object):
         return pages
 
     def single_page(self, page):
-        # print("single page %s" % page)
-        # print(type(page))
+        print("single page %s" % page)
         if page == self.page:
             return self.current_page_fmt.format(page)
 
@@ -464,6 +463,7 @@ class Pagination(object):
         s.append(self.prev_page)
         
         for page in self.pages:
+            # import pdb; pdb.set_trace()
             s.append(self.single_page(page) if page else self.gap_marker_fmt)
 
         s.append(self.next_page)
