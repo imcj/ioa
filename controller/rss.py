@@ -7,19 +7,20 @@ from ioa.database import DatabaseContext
 from models.dao.topic import TopicDAO
 from io import StringIO
 
+
 @routes.get("/rss.xml")
 async def rss(request):
     engine = DatabaseContext.default.engine
     async with engine.acquire() as connection:
         topic_dao = TopicDAO(connection)
         topics = await topic_dao.latest100()
-    
+
     rss = PyRSS2Gen.RSS2(
         title="DOIST",
         link="https://doist.cn/",
         description=u"实干家",
         lastBuildDate="",
-        items = [
+        items=[
             PyRSS2Gen.RSSItem(
                 title=topic['title'],
                 link="https://doist.cn/t/%d" % (topic['id'],),
@@ -33,7 +34,7 @@ async def rss(request):
             for topic in topics
         ]
     )
-    response = web.StreamResponse(headers={ 'Content-Type': 'text/xml'})
+    response = web.StreamResponse(headers={'Content-Type': 'text/xml'})
     await response.prepare(request)
     buf = StringIO()
     rss.write_xml(buf, 'utf-8')
