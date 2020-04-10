@@ -3,12 +3,13 @@ import jinja2
 import humanize
 import aiohttp_jinja2
 
-import time
 import markdown
 import bleach
 
-def naturaldelta(datetime):    
+
+def naturaldelta(datetime):
     return humanize.naturaldelta(datetime)
+
 
 def setup(app):
     env = aiohttp_jinja2.setup(

@@ -1,15 +1,10 @@
 import os
-import logging
+import asyncio
 from aiomysql.sa import create_engine
 
-class DatabaseContext:
-    default = None
-    engine = None
 
-DatabaseContext.default = DatabaseContext()
-
-async def init(loop):
-    logging.info('opening database')
+async def init(app):
+    loop = asyncio.get_event_loop()
     config = {
         "host": os.getenv('DATABASE_HOST', '127.0.0.1'),
         "port": int(os.getenv('DATABASE_PORT', 3306)),
@@ -19,8 +14,5 @@ async def init(loop):
         "loop": loop,
         # "pool_size": 100
     }
-    logging.info(config)
     engine = await create_engine(**config)
-    DatabaseContext.default.engine = engine
-    print("database initialized.")
-    
+    app['engine'] = engine

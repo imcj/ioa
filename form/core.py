@@ -7,6 +7,7 @@ except ImportError:
 
 from wtforms.compat import text_type
 
+
 class Input(widgets.core.Input):
     def __call__(self, field, **kwargs):
         classes = ['form-control']
@@ -15,8 +16,10 @@ class Input(widgets.core.Input):
         kwargs['class'] = kwargs['class_'] = ' '.join(classes)
         return super(Input, self).__call__(field, **kwargs)
 
+
 class TextInput(Input):
     input_type = 'text'
+
 
 class PasswordInput(Input):
     input_type = 'password'
@@ -28,6 +31,7 @@ class TextArea(object):
 
     `rows` and `cols` ought to be passed as keyword args when rendering.
     """
+
     def __call__(self, field, **kwargs):
         kwargs.setdefault('id', field.id)
         if 'required' not in kwargs and 'required' in getattr(field, 'flags', []):

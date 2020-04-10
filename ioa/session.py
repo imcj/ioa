@@ -1,9 +1,10 @@
 import base64
+import aiohttp_session
 from cryptography import fernet
-from aiohttp_session import setup as setup_session, get_session
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 
-def setup(app):
+
+def get_session_middleware():
     fernet_key = fernet.Fernet.generate_key()
-    secret_key = base64.urlsafe_b64decode(base64.urlsafe_b64encode((" " * 32 ).encode()))
-    setup_session(app, EncryptedCookieStorage(secret_key))
+    secret_key = base64.urlsafe_b64decode(base64.urlsafe_b64encode((" " * 32).encode()))
+    return aiohttp_session.session_middleware(EncryptedCookieStorage(secret_key))

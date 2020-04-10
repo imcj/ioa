@@ -1,3 +1,3 @@
 class User:
-    id : int = None
-    username : str = None
+    id: int = None
+    username: str = None
