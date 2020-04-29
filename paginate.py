@@ -426,7 +426,6 @@ class Pagination(object):
         return pages
 
     def single_page(self, page):
-        print("single page %s" % page)
         if page == self.page:
             return self.current_page_fmt.format(page)
 

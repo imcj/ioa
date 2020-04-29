@@ -54,11 +54,11 @@ async def session_to_request_middleware(request, handler):
 def connection_middleware(app):
     @middleware
     async def _connection_middleware(request, handler):
-        connection = await app['engine'].acquire()
-        request['connection'] = connection
-        ioa.connection_context.set(connection)
-        response = await handler(request)
-        await connection.close()
+        async with app['engine'].acquire() as connection:
+            request['connection'] = connection
+            ioa.connection_context.set(connection)
+            response = await handler(request)
+
         return response
 
     return _connection_middleware
